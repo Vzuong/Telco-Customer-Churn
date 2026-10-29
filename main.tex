@@ -1,0 +1,1094 @@
+%!TEX program = xelatex
+\documentclass[a4paper]{article}
+
+% --- TOÁN HỌC ---
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+
+% --- CẤU HÌNH FONT TỰ ĐỘNG TƯƠNG THÍCH MỌI ENGINE (CHỐNG LỖI 100% TRÊN OVERLEAF) ---
+\usepackage{iftex}
+\ifPDFTeX
+    % Khi Overleaf chạy mặc định bằng pdfLaTeX: dùng Times-like chuẩn và hỗ trợ tiếng Việt
+    \usepackage[utf8]{vietnam}
+    \usepackage{newtxtext,newtxmath}
+\else
+    % Khi Overleaf chuyển sang XeLaTeX hoặc LuaLaTeX (khuyên dùng):
+    \usepackage{fontspec}
+    \setmainfont{Times New Roman}
+\fi
+
+% --- CẤU HÌNH CỠ CHỮ THỰC TẾ 13PT CHO NỘI DUNG CHÍNH (SCREXTEND) ---
+\usepackage{scrextend}
+\changefontsizes[17pt]{13pt}
+
+% --- ĐỊNH NGHĨA TIÊU ĐỀ TIẾNG VIỆT CHUẨN XELATEX ---
+\renewcommand{\contentsname}{MỤC LỤC}
+\renewcommand{\listfigurename}{DANH MỤC HÌNH VẼ}
+\renewcommand{\listtablename}{DANH MỤC BẢNG BIỂU}
+\renewcommand{\tablename}{Bảng}
+\renewcommand{\figurename}{Hình}
+\renewcommand{\refname}{TÀI LIỆU THAM KHẢO}
+\renewcommand{\appendixname}{PHỤ LỤC}
+
+% --- CĂN CHỈNH TRANG IN (CHUẨN BÁO CÁO ICTU) ---
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    top=2.5cm,
+    bottom=2.5cm,
+    left=3.0cm,
+    right=2.0cm
+}
+
+% --- GIÃN DÒNG VÀ ĐOẠN VĂN ---
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{indentfirst}
+\setlength{\parindent}{1.0cm}
+\setlength{\parskip}{6pt}
+
+
+% --- ĐỒ HỌA, HÌNH ẢNH VÀ KHUNG TRANG BÌA ---
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+% --- BẢNG BIỂU ĐÓNG KHUNG CHUYÊN NGHIỆP ---
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xltabular}
+\usepackage{longtable}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{adjustbox}
+\renewcommand{\arraystretch}{1.25} % Giãn dòng trong ô bảng cho thoáng đẹp
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+% --- ĐÁNH SỐ BẢNG VÀ HÌNH THEO CHƯƠNG (Bảng 1.1, Hình 2.1) ---
+\usepackage{chngcntr}
+\counterwithin{table}{section}
+\counterwithin{figure}{section}
+\counterwithin{equation}{section}
+
+% --- DANH SÁCH & ĐỊNH DẠNG TIÊU ĐỀ (BỎ SỐ THỪA Ở GÓC) ---
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=1.5cm}
+
+\usepackage{titlesec}
+% In đậm toàn bộ tiêu đề chương, mục và tiểu mục với cấu hình chuẩn
+\titleformat{\section}{\normalfont\Large\bfseries\color{black}\filcenter}{}{0pt}{\bfseries}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\bfseries\thesubsection.\ }{0pt}{\bfseries}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\bfseries\thesubsubsection.\ }{0pt}{\bfseries}
+\titlespacing*{\section}{0pt}{14pt plus 2pt minus 2pt}{8pt plus 2pt}
+\titlespacing*{\subsection}{0pt}{10pt plus 2pt minus 2pt}{5pt plus 1pt}
+\titlespacing*{\subsubsection}{0pt}{8pt plus 2pt minus 1pt}{4pt plus 1pt}
+
+% Định dạng Mục lục: In đậm toàn bộ Chương, Mục và Tiểu mục
+\makeatletter
+\renewcommand*\l@section[2]{%
+  \ifnum \c@tocdepth >\z@
+    \addpenalty\@secpenalty
+    \addvspace{0.45em \@plus\p@}%
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      #1\nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+    \endgroup
+  \fi}
+\renewcommand*\l@subsection[2]{%
+  \@dottedtocline{2}{1.2em}{2.2em}{\textbf{#1}}{\textbf{#2}}}
+\renewcommand*\l@subsubsection[2]{%
+  \@dottedtocline{3}{3.4em}{3.0em}{\textbf{#1}}{\textbf{#2}}}
+\makeatother
+
+% --- MÀU SẮC VÀ LIÊN KẾT ---
+\usepackage{xcolor}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.96,0.97,0.98}
+\definecolor{ictublue}{RGB}{10, 50, 120}
+
+\usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=blue]{hyperref}
+
+% --- MÃ NGUỒN PYTHON (LISTINGS) ---
+\usepackage{listings}
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen}\itshape,
+    keywordstyle=\color{blue}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    frame=single,
+    rulecolor=\color{black!20}
+}
+\lstset{style=pythonstyle}
+
+% =========================================================================
+% BẮT ĐẦU TÀI LIỆU
+% =========================================================================
+\begin{document}
+
+% -------------------------------------------------------------------------
+% TRANG BÌA CHUẨN ICTU CÓ KHUNG ĐÔI BAO QUANH
+% -------------------------------------------------------------------------
+\begin{titlepage}
+% Vẽ khung đôi trang trọng bao quanh toàn bộ trang bìa
+\begin{tikzpicture}[remember picture, overlay]
+    \draw[line width = 2.5pt, color=black] ($(current page.north west) + (2.0cm,-2.0cm)$) rectangle ($(current page.south east) + (-1.5cm,2.0cm)$);
+    \draw[line width = 0.8pt, color=black] ($(current page.north west) + (2.12cm,-2.12cm)$) rectangle ($(current page.south east) + (-1.38cm,1.88cm)$);
+\end{tikzpicture}
+
+\begin{center}
+    \vspace*{-0.5cm}
+    \textbf{\large BỘ GIÁO DỤC VÀ ĐÀO TẠO \ ĐẠI HỌC THÁI NGUYÊN}\\[0.25cm]
+    \textbf{\Large TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG}\\[0.2cm]
+    \textbf{\large KHOA CÔNG NGHỆ THÔNG TIN}\\[0.5cm]
+    
+    \includegraphics[width=3.6cm]{logo_ictu.png}\\[0.6cm]
+    
+    {\fontsize{20pt}{24pt}\selectfont \textbf{BÁO CÁO TIỂU LUẬN}}\\[0.35cm]
+    {\large \textbf{HỌC PHẦN: HỌC MÁY (MACHINE LEARNING)}}\\[1.0cm]
+    
+    {\Large \textbf{ĐỀ TÀI:}}\\[0.4cm]
+    {\fontsize{18pt}{22pt}\selectfont \textbf{DỰ ĐOÁN NGUY CƠ KHÁCH HÀNG RỜI BỎ MẠNG VIỄN THÔNG}}\\[1.5cm]
+    
+    \begin{minipage}{0.95\textwidth}
+        \begin{tabular}{ll}
+            \textbf{Giảng viên hướng dẫn:} & ThS. Nguyễn Tuấn Anh\\[0.3cm]
+            \textbf{Lớp học phần:}         & CNTT K22H\\[0.3cm]
+            \textbf{Nhóm thực hiện:}        & Nhóm 20\\[0.3cm]
+            \textbf{Sinh viên thực hiện:}  & 1. Hoàng Quốc Vượng -- MSV: DTC235200857\\[0.2cm]
+                                           & 2. Hoàng Anh Tuấn \hspace{0.4cm}-- MSV: DTC235200797
+        \end{tabular}
+    \end{minipage}
+    
+    \vfill
+    {\large \textbf{Thái Nguyên, Tháng 10 Năm 2026}}
+    \vspace*{-0.5cm}
+\end{center}
+\end{titlepage}
+
+% -------------------------------------------------------------------------
+% TRANG MỤC LỤC & DANH MỤC
+% -------------------------------------------------------------------------
+\newpage
+\pagenumbering{roman}
+
+% -------------------------------------------------------------------------
+% LỜI CAM ĐOAN
+% -------------------------------------------------------------------------
+\section*{\textbf{LỜI CAM ĐOAN}}
+\addcontentsline{toc}{section}{LỜI CAM ĐOAN}
+
+Chúng em xin cam đoan báo cáo tiểu luận `DỰ ĐOÁN NGUY CƠ KHÁCH HÀNG RỜI BỎ MẠNG VIỄN THÔNG'' là kết quả làm việc của nhóm dưới sự hướng dẫn của giảng viên Nguyễn Tuấn Anh. Các số liệu và kết quả thực nghiệm trình bày trong báo cáo được thực hiện thông qua quá trình xử lý dữ liệu, xây dựng và đánh giá mô hình của nhóm. Các tài liệu, mã nguồn và dữ liệu tham khảo đều được trích dẫn trong danh mục tài liệu tham khảo theo quy định.
+
+\textbf{Khai báo sử dụng công cụ AI tạo sinh:} Nhóm có sử dụng ChatGPT để hỗ trợ tìm hiểu kiến thức, tham khảo hướng tiếp cận giải quyết bài toán, hỗ trợ phát hiện và sửa lỗi mã nguồn, cũng như rà soát và chỉnh sửa cách diễn đạt trong báo cáo. Các kết quả thực nghiệm được kiểm tra dựa trên quá trình chạy chương trình. Nhóm chịu trách nhiệm về tính chính xác của nội dung báo cáo và có khả năng giải thích các phương pháp, mã nguồn và kết quả đã trình bày.
+
+Nếu phát hiện có bất kỳ sự gian lận nào, chúng em xin hoàn toàn chịu trách nhiệm trước giảng viên và nhà trường.
+
+\vspace{1.2cm}
+\begin{flushright}
+\begin{minipage}{0.75\textwidth}
+\centering
+\textit{Thái Nguyên, ngày \dots\ tháng \dots\ năm 2026}\\[0.25cm]
+\textbf{NHÓM SINH VIÊN THỰC HIỆN}\\[0.15cm]
+\textit{(Ký và ghi rõ họ tên)}\\[2.2cm]
+\textbf{Hoàng Quốc Vượng \qquad\qquad Hoàng Anh Tuấn}
+\end{minipage}
+\end{flushright}
+
+\newpage
+
+% -------------------------------------------------------------------------
+% LỜI CẢM ƠN
+% -------------------------------------------------------------------------
+\section*{\textbf{LỜI CẢM ƠN}}
+\addcontentsline{toc}{section}{LỜI CẢM ƠN}
+
+Trước hết, chúng em xin gửi lời cảm ơn chân thành đến thầy Nguyễn Tuấn Anh, giảng viên hướng dẫn học phần Học máy, đã tận tình hướng dẫn, cung cấp những kiến thức cần thiết và đưa ra các góp ý quý báu để nhóm hoàn thành báo cáo tiểu luận với đề tài `Dự đoán nguy cơ khách hàng rời bỏ mạng viễn thông''.
+
+Trong quá trình thực hiện, nhóm đã có cơ hội vận dụng kiến thức đã học để tìm hiểu và giải quyết một bài toán thực tế bằng các phương pháp học máy. Qua đó, chúng em hiểu rõ hơn về quá trình xử lý dữ liệu, xây dựng mô hình, đánh giá kết quả và ứng dụng học máy trong lĩnh vực viễn thông.
+
+Mặc dù đã cố gắng hoàn thành báo cáo với tinh thần nghiêm túc, do kiến thức và kinh nghiệm thực tế còn hạn chế, báo cáo khó tránh khỏi những thiếu sót. Chúng em rất mong nhận được những ý kiến nhận xét và góp ý từ thầy để có thể hoàn thiện báo cáo cũng như nâng cao kiến thức chuyên môn của mình.
+
+Cuối cùng, chúng em xin kính chúc thầy sức khỏe, hạnh phúc và thành công trong công tác giảng dạy.
+
+Chúng em xin chân thành cảm ơn!
+
+\vspace{1.2cm}
+\begin{flushright}
+\begin{minipage}{0.55\textwidth}
+\centering
+\textbf{Nhóm sinh viên thực hiện}\\[0.25cm]
+\textit{Hoàng Quốc Vượng -- Hoàng Anh Tuấn}
+\end{minipage}
+\end{flushright}
+
+\newpage
+
+% -------------------------------------------------------------------------
+% BẢNG PHÂN CÔNG NHIỆM VỤ
+% -------------------------------------------------------------------------
+{
+\enlargethispage{1.5cm}
+\setlength{\parskip}{2pt}
+\linespread{1.05}\selectfont
+
+\section*{BẢNG PHÂN CÔNG NHIỆM VỤ}
+\addcontentsline{toc}{section}{BẢNG PHÂN CÔNG NHIỆM VỤ}
+
+\noindent Dưới đây là bảng tổng hợp phân công nhiệm vụ chi tiết và mức độ hoàn thành của các thành viên nhóm trong giai đoạn thực hiện đề tài (Bài kiểm tra 1 -- Tuần 4):
+
+\vspace{0.2cm}
+\noindent
+\begin{tabularx}{\textwidth}{|c| >{\raggedright\arraybackslash}p{3.5cm} | >{\raggedright\arraybackslash}X |c|}
+\hline
+\textbf{STT} & \textbf{Họ và tên} & \textbf{Nhiệm vụ phụ trách} & \textbf{\makecell{Mức độ\\hoàn thành}} \\
+\hline
+1 & \textbf{Hoàng Anh Tuấn}\newline \small MSV: DTC235200797 & 
+\begin{itemize}[nosep, leftmargin=*, topsep=1pt, partopsep=0pt]
+    \small
+    \item Thu thập dữ liệu Telco và lập Từ điển dữ liệu 20 thuộc tính (Mục 2.2).
+    \item Rà soát, định lượng các vấn đề chất lượng: 11 giá trị khuyết ở \texttt{TotalCharges}, kiểm định ngoại lai 1.5 IQR (Hình 3.1) và rủi ro rò rỉ dữ liệu (Chương 3).
+    \item Thiết lập đường ống \texttt{ColumnTransformer} (OneHotEncoder, StandardScaler) và chia tập Train/Test phân tầng 80/20 (Chương 4).
+    \item Lập trình mã nguồn Phụ lục, hoàn thiện notebook \texttt{check.ipynb}, cấu hình LaTeX và xuất bản PDF.
+    \item Viết báo cáo Chương 3, Chương 4, Kết luận và Phụ lục mã nguồn.
+\end{itemize} & 100\% \\
+\hline
+2 & \textbf{Hoàng Quốc Vượng}\newline \small MSV: DTC235200857 & 
+\begin{itemize}[nosep, leftmargin=*, topsep=1pt, partopsep=0pt]
+    \small
+    \item Phát biểu bài toán học máy, xác định mục tiêu và tiêu chí đánh giá kỹ thuật (Chương 1).
+    \item Lập trình xây dựng mô hình cơ sở tham chiếu (\textit{Baseline DummyClassifier}) phục vụ Bảng 1.2.
+    \item Thực hiện khảo sát thống kê mô tả, phân tích hình thái phân bố dữ liệu và kiểm định $\chi^2$ (Chương 2).
+    \item Trực quan hóa dữ liệu khám phá EDA (Hình 2.1, 2.2, 2.3, 2.4).
+    \item Viết báo cáo các phần Mở đầu, Chương 1 và Chương 2.
+\end{itemize} & 100\% \\
+\hline
+\end{tabularx}
+
+}
+\newpage
+
+% --- MỤC LỤC TRỌN VẸN TRONG 1 TRANG THOÁNG ĐẸP ---
+{
+\enlargethispage{2.0cm}
+\setlength{\parskip}{0pt}
+\linespread{1.02}\selectfont
+\tableofcontents
+}
+\newpage
+
+% --- DANH MỤC BẢNG BIỂU & DANH MỤC HÌNH VẼ GỘP CHUNG 1 TRANG ---
+{
+\setlength{\parskip}{2.0pt}
+\linespread{1.15}\selectfont
+\listoftables
+\vspace{1.2cm}
+\listoffigures
+}
+\newpage
+
+% -------------------------------------------------------------------------
+% DANH MỤC CHỮ VIẾT TẮT (BẢNG ĐÓNG KHUNG, KHÔNG TĂNG SỐ BẢNG)
+% -------------------------------------------------------------------------
+\section*{DANH MỤC KÝ HIỆU VÀ TỪ VIẾT TẮT}
+\addcontentsline{toc}{section}{DANH MỤC KÝ HIỆU VÀ TỪ VIẾT TẮT}
+
+\begin{center}
+\small
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{| c | >{\raggedright\arraybackslash\bfseries}p{3.5cm} | >{\raggedright\arraybackslash}X |}
+\hline
+\textbf{STT} & \textbf{Từ viết tắt} & \textbf{Ý nghĩa tiếng Việt / Thuật ngữ đầy đủ} \\
+\hline
+1 & CAC & Customer Acquisition Cost (Chi phí thu hút một khách hàng mới) \\
+\hline
+2 & CRISP-DM & Cross-Industry Standard Process for Data Mining \\
+\hline
+3 & EDA & Exploratory Data Analysis (Khảo sát và khám phá dữ liệu) \\
+\hline
+4 & FN & False Negative (Sai lầm âm tính giả -- bỏ sót khách rời mạng) \\
+\hline
+5 & FP & False Positive (Sai lầm dương tính giả -- cảnh báo nhầm) \\
+\hline
+6 & IQR & Interquartile Range (Khoảng tứ phân vị: $Q_3 - Q_1$) \\
+\hline
+7 & OHE & One-Hot Encoding (Mã hóa biến danh mục thành vector nhị phân) \\
+\hline
+8 & ROC-AUC & Receiver Operating Characteristic -- Area Under the Curve \\
+\hline
+9 & VIF & Variance Inflation Factor (Hệ số phóng đại phương sai đo đa cộng tuyến) \\
+\hline
+\end{tabularx}
+\end{center}
+
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% -------------------------------------------------------------------------
+% PHẦN MỞ ĐẦU
+% -------------------------------------------------------------------------
+\section*{\textbf{MỞ ĐẦU}}
+\addcontentsline{toc}{section}{MỞ ĐẦU}
+{
+\setlist[enumerate]{nosep, topsep=2pt, itemsep=2pt}
+\setlist[itemize]{nosep, topsep=2pt, itemsep=2pt}
+
+\subsection*{\textbf{1. Giới thiệu bối cảnh và lý do chọn đề tài}}
+Trong bối cảnh thị trường viễn thông và dịch vụ số ngày càng bão hòa, sự cạnh tranh giữa các nhà cung cấp dịch vụ mạng, viễn thông và tiện ích trực tuyến diễn ra vô cùng gay gắt. Nhiều nghiên cứu thực tiễn trong ngành kinh doanh dịch vụ chỉ ra rằng chi phí để tiếp cận và thu hút một thuê bao mới (Customer Acquisition Cost -- CAC) thường cao hơn gấp nhiều lần so với chi phí duy trì một thuê bao hiện hữu. Khi khách hàng ngừng sử dụng hoặc chuyển sang nhà mạng đối thủ --- hiện tượng khách hàng rời bỏ dịch vụ (\textit{Customer Churn}), doanh nghiệp không chỉ tổn thất dòng doanh thu định kỳ mà còn lãng phí toàn bộ chi phí đầu tư ban đầu.
+
+Để giải quyết bài toán này, việc áp dụng các kỹ thuật học máy (\textit{Machine Learning}) nhằm phát hiện sớm các dấu hiệu bất thường trong hành vi sử dụng và tương tác của khách hàng đóng vai trò đặc biệt quan trọng. Thay vì xử lý bị động khi khách hàng đã gửi yêu cầu hủy dịch vụ, một hệ thống phân tích dự đoán có thể giúp doanh nghiệp nhận diện nhóm thuê bao có rủi ro rời mạng cao, từ đó chủ động xây dựng các chương trình chăm sóc khách hàng và giữ chân hợp lý, tối ưu hóa ngân sách vận hành.
+
+\subsection*{\textbf{2. Mục tiêu và nhiệm vụ nghiên cứu}}
+Mục tiêu trọng tâm của đề tài trong giai đoạn khảo sát và chuẩn bị dữ liệu là tiếp cận bộ dữ liệu viễn thông thực tế để xác định bài toán học máy chuẩn xác, thực hiện quy trình khảo sát thống kê khám phá (\textit{Exploratory Data Analysis -- EDA}), phát hiện và xử lý có căn cứ các vấn đề về chất lượng dữ liệu, đồng thời thiết lập đường ống tiền xử lý dữ liệu chuẩn mực ngăn chặn triệt để rò rỉ dữ liệu (\textit{Data Leakage}).
+
+Các nhiệm vụ cụ thể bao gồm:
+\begin{enumerate}
+    \item Phát biểu tường minh bài toán học máy, xác định rõ không gian đặc trưng đầu vào, đơn vị mẫu và nhãn mục tiêu cần dự đoán.
+    \item Chuyển đổi mục tiêu nghiệp vụ thực tế thành các chỉ số đánh giá kỹ thuật của mô hình học máy kèm mức tham chiếu và chỉ tiêu kỳ vọng.
+    \item Xây dựng từ điển dữ liệu chi tiết mô tả đầy đủ các thuộc tính có trong tập dữ liệu.
+    \item Thực hiện khảo sát thống kê mô tả, phân tích hình thái phân bố của các đặc trưng và nhãn mục tiêu thông qua các kỹ thuật trực quan hóa và kiểm định thống kê phù hợp.
+    \item Rà soát, định lượng và đề xuất phương án xử lý các khiếm khuyết chất lượng dữ liệu (giá trị thiếu, sai định dạng, ngoại lai, mất cân bằng nhãn và nguy cơ rò rỉ dữ liệu).
+    \item Thiết kế quy trình tiền xử lý và chiến lược phân chia tập dữ liệu huấn luyện -- kiểm tra (\textit{Stratified Train-Test Split, Cross-Validation}) đảm bảo ngăn ngừa nguy cơ rò rỉ dữ liệu.
+\end{enumerate}
+
+\subsection*{\textbf{3. Phạm vi và đối tượng nghiên cứu}}
+\begin{itemize}
+    \item Đối tượng nghiên cứu: 7.043 bản ghi thuê bao khách hàng cá nhân cùng 20 thuộc tính mô tả về nhân khẩu học, thông tin gói cước, dịch vụ đăng ký và lịch sử thanh toán từ bộ dữ liệu viễn thông mẫu của IBM \cite{ibm2020}.
+    \item Phạm vi nghiên cứu: Báo cáo tập trung vào pha thấu hiểu bài toán, khảo sát dữ liệu và chuẩn bị dữ liệu (tương ứng với các giai đoạn \textit{Business Understanding, Data Understanding} và \textit{Data Preparation} trong quy trình chuẩn \textit{CRISP-DM}). Đề tài chưa bao gồm việc huấn luyện và tối ưu hóa siêu tham số cho các mô hình phân loại phức tạp ở mốc này.
+\end{itemize}
+
+\subsection*{\textbf{4. Phương pháp tiếp cận}}
+Đề tài áp dụng quy trình chuẩn công nghiệp CRISP-DM. Quá trình khảo sát và xử lý dữ liệu được thực thi trên môi trường lập trình Python, khai thác các thư viện chuyên dụng:
+\begin{itemize}
+    \item \texttt{pandas} và \texttt{numpy}: Đọc, thao tác cấu trúc bảng và tính toán các đại lượng thống kê.
+    \item \texttt{matplotlib} và \texttt{seaborn}: Trực quan hóa phân bố dữ liệu và quan hệ giữa các biến.
+    \item Thư viện \texttt{scikit-learn} \cite{pedregosa2011scikit}: Xây dựng đường ống tiền xử lý tự động (\texttt{Pipeline}, \texttt{ColumnTransformer}, \texttt{StandardScaler}, \texttt{OneHotEncoder}) và phân tách tập kiểm thử.
+\end{itemize}
+
+\subsection*{\textbf{5. Kết cấu báo cáo}}
+Nội dung báo cáo được tổ chức thành 4 chương chính:
+\begin{itemize}
+    \item Chương 1 -- Xác định bài toán và tiêu chí đánh giá: Trình bày bối cảnh nghiệp vụ, phát biểu bài toán học máy và xây dựng hệ chỉ số kỹ thuật cùng mức tham chiếu.
+    \item Chương 2 -- Thu thập, mô tả và khảo sát dữ liệu (EDA): Giới thiệu nguồn dữ liệu, từ điển dữ liệu, khảo sát thống kê mô tả và phân tích quan hệ giữa các đặc trưng với nhãn mục tiêu.
+    \item Chương 3 -- Phát hiện và xử lý vấn đề chất lượng dữ liệu: Định lượng các lỗi dữ liệu thực tế, giải thích căn cứ xử lý và đối chiếu dữ liệu trước -- sau xử lý.
+    \item Chương 4 -- Chuẩn bị dữ liệu và thiết kế quy trình đánh giá: Trình bày quy trình phân tách dữ liệu, xây dựng pipeline mã hóa/chuẩn hóa chống rò rỉ thông tin và thiết kế chiến lược kiểm định chéo (\textit{Cross-Validation}).
+\end{itemize}
+
+}
+% -------------------------------------------------------------------------
+% CHƯƠNG 1
+% -------------------------------------------------------------------------
+\vspace{1.5em}
+\section[CHƯƠNG 1. XÁC ĐỊNH BÀI TOÁN VÀ TIÊU CHÍ ĐÁNH GIÁ]{CHƯƠNG 1. XÁC ĐỊNH BÀI TOÁN\\VÀ TIÊU CHÍ ĐÁNH GIÁ}
+
+\subsection{Bối cảnh nghiệp vụ và Phát biểu bài toán học máy}
+Trong hoạt động kinh doanh của các nhà mạng viễn thông, việc duy trì cơ sở khách hàng trung thành là yếu tố then chốt bảo đảm sự ổn định của dòng tiền và lợi nhuận. Khi một khách hàng rời bỏ dịch vụ, doanh nghiệp không chỉ mất nguồn thu định kỳ mà còn lãng phí toàn bộ chi phí thu hút khách hàng ban đầu. Vì vậy, bài toán dự đoán sớm khả năng rời mạng của khách hàng được xây dựng nhằm hỗ trợ doanh nghiệp chuyển từ thế bị động ứng phó sang chủ động can thiệp, tập trung nguồn lực chăm sóc vào các khách hàng có nguy cơ rời mạng cao nhất.
+
+Bài toán học máy được nhóm phát biểu và mô hình hóa cụ thể theo Bảng \ref{tab:dacta_baitoan}:
+
+{
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{xltabular}{\textwidth}{| >{\raggedright\arraybackslash\bfseries}p{3.8cm} | >{\raggedright\arraybackslash}X |}
+\caption{Đặc tả chi tiết bài toán học máy} \label{tab:dacta_baitoan} \\
+\hline
+\textbf{Thành phần bài toán} & \textbf{Nội dung đặc tả chi tiết trong đề tài} \\
+\hline
+\endfirsthead
+\caption[]{Đặc tả chi tiết bài toán học máy (Tiếp theo)} \\
+\hline
+\textbf{Thành phần bài toán} & \textbf{Nội dung đặc tả chi tiết trong đề tài} \\
+\hline
+\endhead
+\hline
+\multicolumn{2}{|r|}{\textit{Xem tiếp trang sau...}} \\
+\hline
+\endfoot
+\hline
+\endlastfoot
+Tên bài toán & Dự đoán nguy cơ khách hàng rời bỏ mạng viễn thông (\textit{Telco Customer Churn Prediction}). \\
+\hline
+Loại bài toán & Học máy có giám sát (\textit{Supervised Learning}) -- Bài toán Phân loại nhị phân (\textit{Binary Classification}). \\
+\hline
+Đơn vị mẫu (\textit{Instance}) & Một thuê bao khách hàng cá nhân tại chu kỳ khảo sát thanh toán cước phí. \\
+\hline
+Không gian đặc trưng đầu vào ($X$) & 19 đặc trưng thô ban đầu (sau khi loại bỏ cột định danh \texttt{customerID} và tách cột nhãn mục tiêu \texttt{Churn}), được phân loại vào 3 nhóm nghiệp vụ:
+\begin{itemize}[leftmargin=0.5cm]
+    \item \textit{Nhóm Nhân khẩu học (4 đặc trưng):} \texttt{gender}, \texttt{SeniorCitizen}, \texttt{Partner}, \texttt{Dependents}.
+    \item \textit{Nhóm Dịch vụ sử dụng (9 đặc trưng):} \texttt{PhoneService}, \texttt{MultipleLines}, \texttt{InternetService}, \texttt{OnlineSecurity}, \texttt{OnlineBackup}, \texttt{DeviceProtection}, \texttt{TechSupport}, \texttt{StreamingTV}, \texttt{StreamingMovies}.
+    \item \textit{Nhóm Hợp đồng và Thanh toán (6 đặc trưng):} \texttt{tenure}, \texttt{Contract}, \texttt{PaperlessBilling}, \texttt{PaymentMethod}, \texttt{MonthlyCharges}, \texttt{TotalCharges}.
+\end{itemize} \\
+\hline
+Đầu ra mục tiêu ($y$) & Biến mục tiêu phân loại nhị phân $y \in \{0, 1\}$, trong đó:
+\begin{itemize}[leftmargin=0.5cm]
+    \item $y = 1$: Khách hàng thuộc nhóm rời bỏ dịch vụ (\texttt{Churn = 'Yes'}).
+    \item $y = 0$: Khách hàng thuộc nhóm không rời bỏ dịch vụ (\texttt{Churn = 'No'}).
+\end{itemize} \\
+\hline
+Quy mô mẫu khảo sát & $N = 7.043$ bản ghi quan sát thực tế từ tập dữ liệu viễn thông mẫu của IBM. \\
+\hline
+\end{xltabular}
+}
+
+\subsection{Mục tiêu kinh doanh và Hệ tiêu chí đánh giá kỹ thuật}
+Để việc xây dựng mô hình học máy mang lại giá trị ứng dụng thực tiễn, nhóm tiến hành chuyển đổi các mục tiêu kinh doanh của doanh nghiệp viễn thông thành các mục tiêu tối ưu hóa và chỉ số kỹ thuật tương ứng theo Bảng \ref{tab:chiso_danhgia}:
+
+\begin{table}[H]
+\centering
+\caption{Ánh xạ mục tiêu kinh doanh sang mục tiêu học máy và chỉ số kỹ thuật}
+\label{tab:chiso_danhgia}
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\textwidth}{| >{\raggedright\arraybackslash}p{2.8cm} | >{\raggedright\arraybackslash}X | >{\centering\arraybackslash}p{2.0cm} | >{\centering\arraybackslash}p{3.1cm} | >{\centering\arraybackslash}p{3.1cm} |}
+\hline
+\makecell{\textbf{Mục tiêu}\\\textbf{kinh doanh}} & \makecell{\textbf{Mục tiêu}\\\textbf{học máy}} & \makecell{\textbf{Chỉ số}\\\textbf{kỹ thuật}} & \makecell{\textbf{Mức tham chiếu}\\\textbf{(Baseline)}$^{(*)}$} & \makecell{\textbf{Chỉ tiêu kỳ vọng}\\\textbf{(Target)}$^{(**)}$} \\
+\hline
+Nhận diện tối đa khách hàng có ý định rời mạng để kịp thời can thiệp giữ chân. & Tối đa hóa khả năng phát hiện mẫu dương (Lớp 1), cực tiểu hóa bỏ sót (False Negatives). & \makecell{Recall\\(Lớp 1)} & \makecell{$\text{Recall} =$\\$0.0000$} & \makecell{$\text{Recall} \ge$\\$0.75$} \\
+\hline
+Kiểm soát tỷ lệ gọi nhầm cho khách hàng trung thành, giảm lãng phí ngân sách tiếp thị. & Kiểm soát tỷ lệ dự đoán dương tính giả (False Positives), theo dõi độ chuẩn xác của cảnh báo. & \makecell{Precision\\(Lớp 1)} & \makecell{$\text{Precision} =$\\$0.0000$} & \makecell{$\text{Precision} \ge$\\$0.55$} \\
+\hline
+Đảm bảo sự cân bằng hài hòa giữa độ bao phủ và độ chuẩn xác của cảnh báo. & Tối ưu hóa điểm trung bình điều hòa giữa Precision và Recall trên lớp thiểu số (Lớp 1). & \makecell{F1-Score\\(Lớp 1)} & \makecell{$\text{F1-Score} =$\\$0.0000$} & \makecell{$\text{F1-Score} \ge$\\$0.65$} \\
+\hline
+Xếp hạng rủi ro rời mạng để phân bổ nguồn lực chăm sóc theo thứ tự ưu tiên. & Tối đa hóa khả năng phân tách xác suất giữa nhóm ở lại và rời mạng độc lập với ngưỡng quyết định. & ROC-AUC & \makecell{$\text{ROC-AUC} =$\\$0.5000$} & \makecell{$\text{ROC-AUC} \ge$\\$0.84$} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\noindent \textit{(*) Ghi chú về Mức tham chiếu Baseline:} Các chỉ số tham chiếu được đo lường thực nghiệm bằng mô hình \texttt{DummyClassifier} với chiến lược \texttt{strategy='most\_frequent'} trên cùng tập dữ liệu phân tách phân tầng (\textit{Stratified Train-Test Split 80/20}). Do tập dữ liệu mang tính mất cân bằng lớp (gồm 5.174 mẫu No chiếm 73,46\% và 1.869 mẫu Yes chiếm 26,54\%), mô hình ngây thơ này luôn luôn dự đoán nhãn là lớp đa số (No). Do mô hình không dự đoán bất kỳ trường hợp dương tính nào, các chỉ số Recall, Precision và F1-Score đối với lớp dương tính (\texttt{Churn = Yes}) đều nhận giá trị thực nghiệm là 0.0000 (với quy ước \texttt{zero\_division=0}). Đồng thời, việc gán xác suất hằng số khiến điểm ROC-AUC đạt mức tham chiếu ngẫu nhiên tuyệt đối là 0.5000 \cite{fawcett2006roc}.
+
+\noindent \textit{(**) Ghi chú về Mức kỳ vọng thành công:} Các ngưỡng kết quả kỳ vọng ($\text{Recall} \ge 0.75$, $\text{F1-Score} \ge 0.65$, $\text{ROC-AUC} \ge 0.84$) được thiết lập dưới dạng các chỉ tiêu định hướng cho giai đoạn xây dựng và huấn luyện mô hình. Tính khả thi của các mốc chỉ số này sẽ được kiểm chứng và điều chỉnh thông qua thực nghiệm trên các thuật toán phân loại ở các giai đoạn tiếp theo.
+
+\subsubsection*{\textbf{Lý giải công thức và cơ sở lựa chọn hệ chỉ số:}}
+{
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{2pt}
+\setlength{\belowdisplayshortskip}{2pt}
+\setlist[enumerate]{nosep, topsep=2pt, itemsep=2pt}
+Các chỉ số đánh giá kỹ thuật được tính toán dựa trên ma trận nhầm lẫn (\textit{Confusion Matrix}) gồm 4 thành phần: True Positive ($TP$), False Positive ($FP$), True Negative ($TN$), và False Negative ($FN$):
+\begin{align}
+    \text{Precision} &= \frac{TP}{TP + FP}, & \text{Recall} &= \frac{TP}{TP + FN} \\
+    \text{F1-Score} &= \frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} = \frac{2TP}{2TP + FP + FN}
+\end{align}
+
+\begin{enumerate}
+    \item Không lựa chọn Accuracy làm chỉ số quyết định: Nếu đánh giá dựa trên độ chính xác tổng thể:
+    \begin{equation}
+        \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
+    \end{equation}
+    Một mô hình ngây thơ luôn dự đoán tất cả khách hàng đều ở lại (No) vẫn đạt mức Accuracy cao lên tới 73,46\%. Tuy nhiên mô hình này hoàn toàn vô dụng về mặt kinh tế vì bỏ sót 100\% khách hàng rời mạng ($\text{Recall} = 0.0000$). Đây là biểu hiện điển hình của hiện tượng nghịch lý độ chính xác (\textit{Accuracy Paradox}) trong các bài toán phân loại mất cân bằng nhãn.
+    
+    \item Cơ sở ưu tiên chỉ số Recall và F1-Score trên lớp thiểu số: Trong phạm vi đề tài, nhóm ưu tiên chỉ số Recall đối với lớp dương tính (\texttt{Churn = Yes}) nhằm hạn chế bỏ sót khách hàng thuộc nhóm rời bỏ dịch vụ. Việc ưu tiên này dựa trên giả định nghiệp vụ rằng bỏ sót khách hàng có nguy cơ rời bỏ có thể gây tổn thất dòng doanh thu lớn hơn việc liên hệ chăm sóc nhầm khách hàng trung thành. Chỉ số F1-Score và ROC-AUC được áp dụng đồng thời nhằm bảo đảm mô hình không đánh đổi quá mức độ chuẩn xác (Precision).
+\end{enumerate}
+
+% -------------------------------------------------------------------------
+% CHƯƠNG 2
+% -------------------------------------------------------------------------
+\vspace{1.5em}
+\section[CHƯƠNG 2. THU THẬP, MÔ TẢ VÀ KHẢO SÁT DỮ LIỆU (EDA)]{CHƯƠNG 2. THU THẬP, MÔ TẢ\\VÀ KHẢO SÁT DỮ LIỆU (EDA)}
+
+\subsection{Nguồn gốc dữ liệu và Điều kiện sử dụng}
+Dữ liệu phục vụ nghiên cứu được thu thập từ nền tảng chia sẻ dữ liệu khoa học Kaggle thông qua bộ dữ liệu công khai \textit{Telco Customer Churn}. Bộ dữ liệu có nguồn gốc xuất phát từ kho dữ liệu mẫu viễn thông của IBM Cognos Analytics (\textit{IBM Sample Data Sets}) \cite{ibm2020}. 
+
+Về điều kiện sử dụng, trang thông tin nguồn trên Kaggle xác định bản quyền thuộc về tác giả gốc của tập dữ liệu (\textit{Data files © Original Authors}), được chia sẻ rộng rãi phục vụ mục đích nghiên cứu, học tập và thực hành phân tích khoa học dữ liệu phi thương mại. Tập dữ liệu thô ban đầu có quy mô gồm 7.043 bản ghi (mỗi bản ghi tương ứng với một thuê bao khách hàng cá nhân) và 21 cột thuộc tính, kích thước tệp tin đạt 977,5 KB ở định dạng CSV (\texttt{Telco-Customer-Churn.csv}).
+
+\subsection{Từ điển dữ liệu chi tiết (Data Dictionary)}
+Toàn bộ 21 trường thông tin ban đầu của bộ dữ liệu được hệ thống hóa trong Bảng \ref{tab:data_dict}. Nhờ việc phân loại tường minh kiểu dữ liệu gốc và kiểu biến thống kê, nhóm có cơ sở chính xác để lựa chọn phương pháp trực quan hóa và kỹ thuật tiền xử lý tương ứng.
+
+\begin{small}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{xltabular}{\textwidth}{| c | >{\raggedright\arraybackslash}p{2.9cm} | c | >{\raggedright\arraybackslash}p{2.6cm} | >{\raggedright\arraybackslash}X | >{\raggedright\arraybackslash}p{2.8cm} |}
+\caption{Từ điển dữ liệu bộ dữ liệu Telco Customer Churn (21 thuộc tính ban đầu)} \label{tab:data_dict} \\
+\hline
+\textbf{STT} & \textbf{Tên thuộc tính} & \textbf{Kiểu gốc} & \textbf{Kiểu thống kê} & \textbf{Ý nghĩa nghiệp vụ} & \textbf{Miền giá trị} \\
+\hline
+\endfirsthead
+\caption[]{Từ điển dữ liệu bộ dữ liệu Telco Customer Churn (Tiếp theo)} \\
+\hline
+\textbf{STT} & \textbf{Tên thuộc tính} & \textbf{Kiểu gốc} & \textbf{Kiểu thống kê} & \textbf{Ý nghĩa nghiệp vụ} & \textbf{Miền giá trị} \\
+\hline
+\endhead
+\hline
+\multicolumn{6}{|r|}{\textit{Xem tiếp trang sau...}} \\
+\hline
+\endfoot
+\hline
+\endlastfoot
+
+1 & \texttt{customerID} & object & Định danh & Mã định danh duy nhất của từng khách hàng (loại bỏ khi xây dựng mô hình) & Chuỗi ký tự (vd: 7590-VHVEG) \\
+\hline
+2 & \texttt{gender} & object & Định danh nhị phân & Giới tính của khách hàng & 'Female', 'Male' \\
+\hline
+3 & \texttt{SeniorCitizen} & int64 & Định danh nhị phân & Khách hàng có phải là người cao tuổi ($\ge 65$ tuổi) hay không & 0 (Không), 1 (Có) \\
+\hline
+4 & \texttt{Partner} & object & Định danh nhị phân & Tình trạng khách hàng có đối tác / đã kết hôn hay chưa & 'Yes', 'No' \\
+\hline
+5 & \texttt{Dependents} & object & Định danh nhị phân & Khách hàng có người phụ thuộc (con cái, người già) hay không & 'Yes', 'No' \\
+\hline
+6 & \texttt{tenure} & int64 & Định lượng (Rời rạc) & Số tháng khách hàng đã ký hợp đồng gắn bó với nhà mạng & 0 đến 72 tháng \\
+\hline
+7 & \texttt{PhoneService} & object & Định danh nhị phân & Khách hàng có đăng ký dịch vụ thoại cố định hay không & 'Yes', 'No' \\
+\hline
+8 & \texttt{MultipleLines} & object & Định danh đa nhóm & Khách hàng có sử dụng nhiều đường dây điện thoại không & 'Yes', 'No', 'No phone service' \\
+\hline
+9 & \texttt{InternetService} & object & Định danh đa nhóm & Nhà cung cấp / Công nghệ kết nối Internet của khách hàng & 'DSL', 'Fiber optic', 'No' \\
+\hline
+10 & \texttt{OnlineSecurity} & object & Định danh đa nhóm & Khách hàng có đăng ký gói bảo mật trực tuyến hay không & 'Yes', 'No', 'No internet service' \\
+\hline
+11 & \texttt{OnlineBackup} & object & Định danh đa nhóm & Khách hàng có sử dụng dịch vụ sao lưu dữ liệu đám mây không & 'Yes', 'No', 'No internet service' \\
+\hline
+12 & \texttt{DeviceProtection} & object & Định danh đa nhóm & Khách hàng có mua gói bảo hành, bảo hiểm thiết bị không & 'Yes', 'No', 'No internet service' \\
+\hline
+13 & \texttt{TechSupport} & object & Định danh đa nhóm & Khách hàng có đăng ký gói hỗ trợ kỹ thuật chuyên dụng không & 'Yes', 'No', 'No internet service' \\
+\hline
+14 & \texttt{StreamingTV} & object & Định danh đa nhóm & Khách hàng có sử dụng dịch vụ truyền hình trực tuyến không & 'Yes', 'No', 'No internet service' \\
+\hline
+15 & \texttt{StreamingMovies} & object & Định danh đa nhóm & Khách hàng có sử dụng dịch vụ xem phim trực tuyến không & 'Yes', 'No', 'No internet service' \\
+\hline
+16 & \texttt{Contract} & object & Thứ bậc (\textit{Ordinal}) & Kỳ hạn điều khoản cam kết hợp đồng dịch vụ & 'Month-to-month', 'One year', 'Two year' \\
+\hline
+17 & \texttt{PaperlessBilling} & object & Định danh nhị phân & Khách hàng có chọn nhận hóa đơn điện tử không & 'Yes', 'No' \\
+\hline
+18 & \texttt{PaymentMethod} & object & Định danh đa nhóm & Phương thức thanh toán cước hàng tháng của khách hàng & 'Electronic check', 'Mailed check', 'Bank transfer', 'Credit card' \\
+\hline
+19 & \texttt{MonthlyCharges} & float64 & Định lượng (Liên tục) & Số tiền cước phí dịch vụ khách hàng phải trả hàng tháng & 18.25 đến 118.75 (USD) \\
+\hline
+20 & \texttt{TotalCharges} & object$^{(*)}$ & Định lượng (Liên tục) & Tổng toàn bộ số tiền cước khách hàng đã chi trả lũy kế & Bị lưu kiểu chuỗi do chứa 11 ô khoảng trắng ' ' \\
+\hline
+21 & \texttt{Churn} & object & Định danh nhị phân & Nhãn mục tiêu: Khách hàng thuộc nhóm rời mạng hay không & 'Yes' (1), 'No' (0) \\
+\hline
+\end{xltabular}
+\end{small}
+
+\subsection{Khảo sát thống kê mô tả và Phân bố dữ liệu}
+Hệ số xiên (\textit{Skewness}) đo lường mức độ bất đối xứng của phân bố dữ liệu quanh giá trị trung bình, được tính theo công thức mô-men chuẩn hóa bậc ba:
+\begin{equation}
+    \text{Skewness} = \frac{\frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})^3}{\left[ \frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})^2 \right]^{3/2}} = \frac{\mu_3}{\sigma^3}
+\end{equation}
+Giá trị $\text{Skewness} = 0$ biểu thị phân bố đối xứng hoàn hảo; $\text{Skewness} > 0$ biểu thị phân bố lệch phải (đuôi dài về phía giá trị lớn); và $\text{Skewness} < 0$ biểu thị phân bố lệch trái.
+
+Để có cái nhìn định lượng chính xác về các thuộc tính số học trước khi tiến hành chuẩn hóa, nhóm thực hiện chuyển đổi cột \texttt{TotalCharges} sang định dạng số (gán tạm thời 0.0 cho các ô khoảng trắng dựa trên cơ sở kiểm tra thực nghiệm $\text{tenure} = 0$) và tính toán các đại lượng thống kê mô tả theo Bảng \ref{tab:thongke_dinhluong}.
+
+\begin{table}[H]
+\centering
+\caption{Thống kê mô tả các đặc trưng định lượng ($N = 7.043$)}
+\label{tab:thongke_dinhluong}
+\small
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{| l | c | r | r | r | r | r | r | r | c |}
+\hline
+\textbf{Đặc trưng} & \textbf{Cỡ mẫu} & \textbf{Trung bình} & \textbf{Độ lệch chuẩn} & \textbf{Min} & \textbf{Q1 (25\%)} & \textbf{Trung vị (50\%)} & \textbf{Q3 (75\%)} & \textbf{Max} & \textbf{Hệ số xiên (Skewness)} \\
+\hline
+\texttt{tenure} (tháng) & 7.043 & 32.37 & 24.56 & 0.00 & 9.00 & 29.00 & 55.00 & 72.00 & +0.24 \\
+\hline
+\texttt{MonthlyCharges} (\$) & 7.043 & 64.76 & 30.09 & 18.25 & 35.50 & 70.35 & 89.85 & 118.75 & -0.22 \\
+\hline
+\texttt{TotalCharges} (\$) & 7.043 & 2279.73 & 2266.79 & 0.00 & 398.55 & 1394.55 & 3786.60 & 8684.80 & +0.96 \\
+\hline
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\noindent Nhận xét thống kê mô tả:
+\begin{itemize}
+    \item Biến thời gian gắn bó (\texttt{tenure}): Giá trị trải dài từ 0 đến 72 tháng (tương đương 6 năm). Trung vị đạt 29 tháng, trong khi giá trị trung bình là 32.37 tháng. Hệ số xiên $\text{Skewness} = +0.24$ cho thấy phân bố gần như đối xứng nhưng có độ phân tán rộng (độ lệch chuẩn lên tới 24.56 tháng).
+    \item Biến cước hàng tháng (\texttt{MonthlyCharges}): Biến động từ 18.25 USD đến 118.75 USD với mức trung bình 64.76 USD và trung vị 70.35 USD. Hệ số xiên $\text{Skewness} = -0.22$ biểu thị độ lệch nhẹ về phía trái, phản ánh phần lớn khách hàng sử dụng các gói dịch vụ có mức cước từ trung bình đến cao.
+    \item Biến tổng cước tích lũy (\texttt{TotalCharges}): Có mức trung bình 2279.73 USD nhưng trung vị chỉ đạt 1394.55 USD, giá trị lớn nhất đạt 8684.80 USD. Hệ số xiên $\text{Skewness} = +0.96 > 0$ phản ánh phân bố lệch phải rõ rệt. Đa số khách hàng tập trung ở mức chi trả tích lũy thấp do sự hiện diện của nhóm khách hàng mới ký hợp đồng.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.72\textwidth]{hinh_2_1_phan_bo_churn.png}
+    \caption{Phân bố tần số và tỷ lệ phần trăm của nhãn mục tiêu Churn}
+    \label{fig:phan_bo_churn}
+\end{figure}
+
+\noindent Nhận xét Hình \ref{fig:phan_bo_churn}: Biểu đồ thanh phân bố nhãn xác nhận cơ cấu tập dữ liệu gồm 5.174 khách hàng không rời mạng (chiếm 73,46\%) và 1.869 khách hàng rời mạng (chiếm 26,54\%). Mức độ chênh lệch xấp xỉ 2,77 : 1 khẳng định tính chất mất cân bằng nhãn của bài toán, đặt ra yêu cầu phải chia tập phân tầng (\textit{Stratified Split}) và áp dụng các kỹ thuật đánh giá chuyên biệt nhằm tránh đánh giá sai lệch hiệu năng mô hình.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.96\textwidth]{hinh_2_2_phan_bo_bien_so.png}
+    \caption{Đồ thị phân bố tần số (Histogram và KDE) của 3 đặc trưng định lượng}
+    \label{fig:phan_bo_bien_so}
+\end{figure}
+
+\noindent Nhận xét Hình \ref{fig:phan_bo_bien_so}:
+\begin{itemize}
+    \item Đồ thị phân bố \texttt{tenure} thể hiện hình thái hai đỉnh (\textit{Bimodal}) rõ rệt: đỉnh thứ nhất tập trung ở nhóm khách hàng mới ($\text{tenure} \le 5$ tháng) và đỉnh thứ hai ở nhóm khách hàng trung thành lâu năm ($\text{tenure}$ từ 65 đến 72 tháng).
+    \item Đồ thị \texttt{MonthlyCharges} xuất hiện nhiều cụm phân bố riêng biệt: cụm mức cước thấp (khoảng 20--25 USD) tương ứng với nhóm chỉ dùng gói thoại và cụm mức cước cao (70--100 USD) tương ứng với nhóm đăng ký tích hợp dịch vụ mạng cáp quang tốc độ cao.
+    \item Đồ thị \texttt{TotalCharges} dốc thoải về phía bên phải, khẳng định sự phù hợp với kết quả tính toán hệ số xiên dương ($\text{Skewness} = +0.96$).
+\end{itemize}
+
+\subsection{Phân tích thực nghiệm quan hệ giữa đặc trưng và biến mục tiêu}
+Nhóm áp dụng các phương pháp phân tích phù hợp với từng loại biến thống kê: kiểm định Chi bình phương độc lập (\textit{Chi-Square Test}) cho các biến phân loại; ma trận tương quan tuyến tính Pearson cho các biến định lượng.
+
+Giá trị thống kê kiểm định Chi bình phương độc lập giữa hai biến danh mục được xác định theo công thức:
+\begin{equation}
+    \chi^2 = \sum_{i=1}^{r} \sum_{j=1}^{c} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+\end{equation}
+Trong đó: $O_{ij}$ là tần số quan sát thực tế tại hàng $i$ cột $j$; $E_{ij} = \frac{R_i \times C_j}{N}$ là tần số kỳ vọng lý thuyết nếu hai biến hoàn toàn độc lập; $r$ và $c$ lần lượt là số hàng và số cột của bảng chéo; $N$ là tổng cỡ mẫu ($N = 7.043$).
+
+\subsubsection{Quan hệ giữa Loại hợp đồng (\texttt{Contract}) và Tỷ lệ rời mạng}
+\begin{table}[H]
+\centering
+\caption{Tỷ lệ rời mạng theo loại hợp đồng (Contract)}
+\label{tab:contract_churn}
+\begin{tabularx}{0.88\textwidth}{| L | Y | Y | Y |}
+\hline
+\textbf{Loại hợp đồng} & \textbf{Tỷ lệ ở lại (No)} & \textbf{Tỷ lệ rời mạng (Yes)} & \textbf{Tổng số mẫu} \\
+\hline
+Hợp đồng từng tháng (\textit{Month-to-month}) & 57,29\% & 42,71\% & 3.875 \\
+\hline
+Hợp đồng 1 năm (\textit{One year}) & 88,73\% & 11,27\% & 1.473 \\
+\hline
+Hợp đồng 2 năm (\textit{Two year}) & 97,17\% & 2,83\% & 1.695 \\
+\hline
+\end{tabularx}
+\end{table}
+
+\noindent Kết quả kiểm định Chi bình phương độc lập: $\chi^2 = 1184.60$, bậc tự do $\text{dof} = 2$, $p\text{-value} = 5.86 \times 10^{-258} < 0.001$. Sự khác biệt giữa các nhóm hợp đồng có ý nghĩa thống kê cực kỳ mạnh mẽ.
+
+\subsubsection{Quan hệ giữa Dịch vụ Internet và Hỗ trợ kỹ thuật (\texttt{TechSupport})}
+\begin{table}[H]
+\centering
+\caption{Tỷ lệ rời mạng theo dịch vụ Internet và phân lớp chéo với hỗ trợ kỹ thuật}
+\label{tab:internet_techsupport}
+\begin{tabularx}{\textwidth}{| l | l | Y | Y | Y |}
+\hline
+\textbf{Dịch vụ Internet} & \textbf{Gói TechSupport} & \textbf{Tỷ lệ ở lại (No)} & \textbf{Tỷ lệ rời mạng (Yes)} & \textbf{Tỷ lệ Churn chung} \\
+\hline
+DSL & Chung & 81,04\% & 18,96\% & 18,96\% \\
+\hline
+\multirow{2}{*}{Cáp quang (\textit{Fiber optic})} & Không có TechSupport & 50,61\% & 49,39\% & \multirow{2}{*}{41,89\%} \\
+\cline{2-4}
+ & Có TechSupport & 72,19\% & 27,81\% & \\
+\hline
+Không có Internet (\textit{No}) & Không áp dụng & 92,60\% & 7,40\% & 7,40\% \\
+\hline
+\end{tabularx}
+\end{table}
+
+\noindent Kết quả kiểm định Chi bình phương đối với \texttt{InternetService}: $\chi^2 = 732.31$, bậc tự do $\text{dof} = 2$, $p\text{-value} = 9.57 \times 10^{-160} < 0.001$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.98\textwidth]{hinh_2_3_yeu_to_anh_huong_churn.png}
+    \caption{Phân tích tác động của Loại hợp đồng và Dịch vụ hỗ trợ kỹ thuật đến tỷ lệ rời mạng}
+    \label{fig:yeu_to_churn}
+\end{figure}
+
+\noindent Nhận xét Hình \ref{fig:yeu_to_churn}:
+\begin{itemize}
+    \item Về loại hợp đồng (Đồ thị A): Tỷ lệ rời mạng có sự phân hóa đặc biệt sâu sắc theo kỳ hạn hợp đồng. Khách hàng ký hợp đồng từng tháng (\textit{Month-to-month}) có tỷ lệ rời mạng lên tới 42,71\%, cao gấp gần 4 lần nhóm hợp đồng 1 năm (11,27\%) và gấp hơn 15 lần nhóm hợp đồng 2 năm (2,83\%). Kết quả kiểm định $\chi^2 = 1184.60$ ($p < 0.001$) khẳng định loại hợp đồng là đặc trưng có lực phân tách mạnh nhất đối với nhãn mục tiêu.
+    \item Về dịch vụ hỗ trợ kỹ thuật ở nhóm cáp quang (Đồ thị B): Khách hàng dùng mạng cáp quang nhưng không có hỗ trợ kỹ thuật (\textit{TechSupport = No}) có tỷ lệ rời mạng lên tới 49,39\% (cứ 2 người thì có 1 người rời mạng). Ngược lại, nhóm có đăng ký gói hỗ trợ kỹ thuật thì tỷ lệ này giảm mạnh xuống chỉ còn 27,81\% (giảm gần một nửa). Điều này chứng minh dịch vụ chăm sóc kỹ thuật đóng vai trò cốt lõi trong việc duy trì khách hàng sử dụng dịch vụ cao cấp.
+\end{itemize}
+
+\subsubsection{Tương quan tuyến tính Pearson giữa các biến định lượng}
+Hệ số tương quan Pearson giữa hai biến số $X$ và $Y$ được tính bằng công thức:
+\begin{equation}
+    r_{XY} = \frac{\sum_{i=1}^{N} (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum_{i=1}^{N} (X_i - \bar{X})^2 \sum_{i=1}^{N} (Y_i - \bar{Y})^2}}
+\end{equation}
+
+\begin{table}[H]
+\centering
+\caption{Ma trận tương quan Pearson giữa các biến định lượng}
+\label{tab:pearson_corr}
+\small
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{0.85\textwidth}{| L | Y | Y | Y |}
+\hline
+\textbf{Đặc trưng} & \texttt{tenure} & \texttt{MonthlyCharges} & \texttt{TotalCharges} \\
+\hline
+\texttt{tenure} & 1.0000 & 0.2479 & 0.8259 \\
+\hline
+\texttt{MonthlyCharges} & 0.2479 & 1.0000 & 0.6511 \\
+\hline
+\texttt{TotalCharges} & 0.8259 & 0.6511 & 1.0000 \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.58\textwidth]{hinh_2_4_heatmap_tuong_quan.png}
+    \caption{Biểu đồ nhiệt (Heatmap) ma trận tương quan Pearson giữa các đặc trưng định lượng}
+    \label{fig:heatmap_corr}
+\end{figure}
+
+\noindent Nhận xét Hình \ref{fig:heatmap_corr}:
+\begin{itemize}
+    \item Biểu đồ nhiệt trực quan hóa mức độ tương quan tuyến tính giữa ba biến định lượng:
+    \begin{itemize}
+        \item Cặp biến \texttt{tenure} và \texttt{TotalCharges} có tương quan rất cao ($r = 0.8259$, tương ứng với ô màu xanh đậm nhất). Kết quả này phản ánh bản chất thực tế: tổng cước tích lũy tăng tỷ lệ thuận chặt chẽ theo số tháng khách hàng gắn bó với nhà mạng ($\text{TotalCharges} \approx \text{tenure} \times \text{MonthlyCharges}$).
+        \item Cặp biến \texttt{MonthlyCharges} và \texttt{TotalCharges} có mức tương quan khá ($r = 0.6511$).
+        \item Cặp biến \texttt{tenure} và \texttt{MonthlyCharges} có tương quan yếu ($r = 0.2479$, màu xanh rất nhạt), cho thấy thời gian sử dụng dịch vụ hầu như không phụ thuộc vào gói cước đắt hay rẻ mà khách hàng lựa chọn.
+    \end{itemize}
+    \item Hàm ý cho mô hình hóa: Mối tương quan cao ($r = 0.8259$) cảnh báo nguy cơ đa cộng tuyến (\textit{Multicollinearity}), dễ làm mất ổn định trọng số ước lượng trong các mô hình tuyến tính (\textit{Logistic Regression}) \cite{hastie2009elements}. Do đó, nhóm đề xuất áp dụng chuẩn hóa \texttt{StandardScaler} kết hợp điều chuẩn (L2 Regularization) khi xây dựng mô hình.
+\end{itemize}
+
+\noindent Ba nhận xét nghiệp vụ và hàm ý mô hình hóa rút ra từ thực nghiệm:
+\begin{enumerate}[nosep, topsep=2pt, itemsep=2pt]
+    \item Tác động phân tách của Loại hợp đồng (\texttt{Contract}) và Thời gian sử dụng (\texttt{tenure}): Khách hàng ký hợp đồng từng tháng có tỷ lệ rời mạng lên tới 42,71\%, cao gấp gần 4 lần nhóm hợp đồng 1 năm (11,27\%) và gấp 15 lần nhóm hợp đồng 2 năm (2,83\%). Kết hợp cùng phân bố \texttt{tenure}, khách hàng mới ký hợp đồng ngắn hạn là nhóm rủi ro cao nhất. \textit{Hàm ý đối với mô hình:} \texttt{Contract} và \texttt{tenure} là hai đặc trưng có lực phân tách mạnh, đóng vai trò then chốt trong việc phân nhánh của các thuật toán cây quyết định (\textit{Decision Trees, Random Forest, XGBoost}).
+    
+    \item Mối quan hệ giữa Cáp quang (\texttt{Fiber optic}) và Hỗ trợ kỹ thuật (\texttt{TechSupport}): Khách hàng sử dụng cáp quang có tỷ lệ rời mạng chung rất cao (41,89\%). Việc đăng ký thêm gói hỗ trợ kỹ thuật giúp tỷ lệ rời mạng giảm mạnh từ 49,39\% xuống 27,81\%. \textit{Hàm ý:} Sự kết hợp giữa cáp quang và hỗ trợ kỹ thuật là ứng viên sáng giá để tạo đặc trưng tương tác (\textit{Interaction Features}).
+    
+    \item Hiện tượng tương quan tuyến tính cao giữa các biến số và nguy cơ đa cộng tuyến: \texttt{TotalCharges} có mối tương quan rất cao với \texttt{tenure} ($r = 0.8259$) và \texttt{MonthlyCharges} ($r = 0.6511$). Do đó, nhóm cần áp dụng các biện pháp chuẩn hóa kết hợp điều chuẩn (\textit{L2 Regularization}) hoặc đánh giá chỉ số phóng đại phương sai (VIF) khi huấn luyện mô hình tuyến tính.
+\end{enumerate}
+
+% -------------------------------------------------------------------------
+% CHƯƠNG 3
+% -------------------------------------------------------------------------
+\vspace{1.5em}
+\section[CHƯƠNG 3. PHÁT HIỆN VÀ XỬ LÝ VẤN ĐỀ CHẤT LƯỢNG DỮ LIỆU]{CHƯƠNG 3. PHÁT HIỆN VÀ XỬ LÝ\\VẤN ĐỀ CHẤT LƯỢNG DỮ LIỆU}
+
+\subsection{Rà soát và định lượng các vấn đề chất lượng dữ liệu}
+Chất lượng dữ liệu đầu vào là yếu tố quyết định trực tiếp đến độ tin cậy và hiệu năng của các thuật toán học máy. Dựa trên kết quả thực thi các kiểm tra tự động trên toàn bộ 7.043 bản ghi và 21 thuộc tính ban đầu, nhóm tiến hành tổng hợp và định lượng chi tiết 6 vấn đề chất lượng dữ liệu theo Bảng \ref{tab:chat_luong_dl}:
+
+\begin{table}[htbp]
+\centering
+\caption{Bảng định lượng các vấn đề chất lượng dữ liệu phát hiện được}
+\label{tab:chat_luong_dl}
+\small
+\setlength{\tabcolsep}{4.2pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\textwidth}{| c | >{\raggedright\arraybackslash}p{2.6cm} | >{\raggedright\arraybackslash}p{2.7cm} | >{\raggedright\arraybackslash}p{3.2cm} | >{\raggedright\arraybackslash}X |}
+\hline
+\textbf{STT} & \textbf{Vấn đề chất lượng} & \textbf{Mức độ định lượng} & \textbf{Vị trí phát hiện} & \textbf{Đánh giá nguy cơ kỹ thuật} \\
+\hline
+1 & Dữ liệu khuyết thiếu (\textit{Missing Values}) & 11 bản ghi (0,156\% tổng số mẫu) & Cột \texttt{TotalCharges} chứa chuỗi ký tự khoảng trắng \texttt{' '} & Khiến cột bị nhận diện là kiểu chuỗi văn bản, gây lỗi khi tính toán số học và ma trận trong Scikit-Learn. \\
+\hline
+2 & Bản ghi trùng lặp (\textit{Duplicate Records}) & 0 bản ghi (0,00\%); 7.043 mã duy nhất & Toàn bộ 7.043 dòng và thuộc tính \texttt{customerID} & Không có hiện tượng thiên lệch tần suất xuất hiện mẫu hay trùng lặp thông tin khách hàng. \\
+\hline
+3 & Sai định dạng dữ liệu (\textit{Data Type Mismatch}) & 1 thuộc tính (100\% cột \texttt{TotalCharges}) & Cột \texttt{TotalCharges} bị nhận diện kiểu \texttt{object} thay vì \texttt{float64} & Do chứa 11 ô khoảng trắng khiến Pandas gán kiểu \texttt{object}, ngăn cản tính toán thống kê và chuẩn hóa số học. \\
+\hline
+4 & Giá trị ngoại lai thống kê (\textit{Outliers}) & 0 giá trị ngoại lai theo quy tắc IQR trên 3 biến số & \texttt{tenure} ([-60, 124]), \texttt{MonthlyCharges} ([-46, 171]), \texttt{TotalCharges} ([-4683, 8868]) & Toàn bộ giá trị thực tế nằm trong ngưỡng thống kê IQR với hệ số 1.5; không có giá trị âm bất thường. \\
+\hline
+5 & Mất cân bằng lớp (\textit{Class Imbalance}) & 5.174 mẫu No (73,46\%) và 1.869 mẫu Yes (26,54\%) & Thuộc tính mục tiêu \texttt{Churn} (tỷ lệ 2,77 : 1) & Gây ra nghịch lý độ chính xác (\textit{Accuracy Paradox}); mô hình có xu hướng thiên vị dự đoán về lớp đa số. \\
+\hline
+6 & Thuộc tính định danh ngẫu nhiên và nguy cơ rò rỉ & 1 cột định danh (\texttt{customerID}) và rò rỉ quy trình tiền xử lý & Cột \texttt{customerID} và quy trình biến đổi đặc trưng & \texttt{customerID} là mã định danh riêng biệt, không mang giá trị quy luật hành vi. Nếu giữ lại có thể gây nhiễu và quá khớp. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsubsection*{\textbf{Phân tích chi tiết phương pháp kiểm tra:}}
+\begin{itemize}
+    \item Về dữ liệu khuyết thiếu ở \texttt{TotalCharges}: Truy vấn dữ liệu thực tế cho thấy toàn bộ 11 bản ghi có \texttt{TotalCharges} chứa khoảng trắng đều có thời gian gắn bó $\text{tenure} = 0$ tháng. Đây là nhóm khách hàng vừa ký hợp đồng trong chu kỳ khảo sát và chưa phát sinh hóa đơn cước tích lũy.
+    
+    \item Về kiểm tra ngoại lai theo quy tắc Khoảng tứ phân vị (IQR): Khoảng tứ phân vị được xác định bởi $IQR = Q_3 - Q_1$, khoảng chấp nhận hợp lệ không ngoại lai là:
+    \begin{equation}
+        \begin{cases}
+            \text{Lower Bound} = Q_1 - 1.5 \times IQR \\
+            \text{Upper Bound} = Q_3 + 1.5 \times IQR
+        \end{cases}
+    \end{equation}
+    Khoảng giá trị hợp lệ không bị coi là ngoại lai là miền $[\text{Lower Bound}, \text{Upper Bound}]$.
+    Kết quả tính toán trên tập dữ liệu:
+    \begin{itemize}
+        \item Biến \texttt{tenure}: $Q_1 = 9.00, Q_3 = 55.00 \Rightarrow IQR = 46.00$. Khoảng chấp nhận $[-60.00, 124.00]$. Miền giá trị $[0, 72]$ nằm trọn vẹn trong khoảng này, số ngoại lai bằng 0.
+        \item Biến \texttt{MonthlyCharges}: $Q_1 = 35.50, Q_3 = 89.85 \Rightarrow IQR = 54.35$. Khoảng chấp nhận: $[-46.02, 171.38]$. Miền thực tế $[18.25, 118.75]$, số ngoại lai bằng 0.
+        \item Biến \texttt{TotalCharges}: $Q_1 = 398.55, Q_3 = 3786.60 \Rightarrow IQR = 3388.05$. Khoảng chấp nhận: $[-4683.52, 8868.67]$. Miền giá trị thực tế $[0.00, 8684.80]$ nằm trọn vẹn trong khoảng này, số ngoại lai bằng 0.
+    \end{itemize}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.98\textwidth]{hinh_3_1_boxplot_ngoai_lai.png}
+    \caption{Biểu đồ hộp (Boxplot) kiểm tra giá trị ngoại lai theo quy tắc 1.5 IQR}
+    \label{fig:boxplot_iqr}
+\end{figure}
+
+\noindent Nhận xét Hình \ref{fig:boxplot_iqr}:
+\begin{itemize}
+    \item Biểu đồ hộp thể hiện phân bố và phạm vi dữ liệu của cả ba biến định lượng:
+    \begin{itemize}
+        \item Biến \texttt{tenure}: Toàn bộ miền giá trị thực tế $[0, 72]$ tháng nằm trọn vẹn trong khoảng chấp nhận thống kê $[-60.00, 124.00]$.
+        \item Biến \texttt{MonthlyCharges}: Toàn bộ miền giá trị thực tế $[18.25, 118.75]$ USD nằm trong khoảng chấp nhận $[-46.02, 171.38]$.
+        \item Biến \texttt{TotalCharges}: Toàn bộ miền giá trị thực tế $[0.00, 8684.80]$ USD nằm trong khoảng chấp nhận $[-4683.52, 8868.67]$.
+    \end{itemize}
+    \item Đánh giá chất lượng dữ liệu: Trên đồ thị của cả ba biến, toàn bộ các quan sát đều nằm gọn gàng bên trong hai đầu râu (Whiskers), hoàn toàn không xuất hiện bất kỳ điểm ngoại lai nào (không có dấu chấm dị biệt nào bay ra ngoài). Đồng thời không ghi nhận giá trị âm bất thường. Điều này khẳng định 100\% dữ liệu số học đều hợp lệ, không cần loại bỏ bản ghi nào.
+\end{itemize}
+
+\noindent Về thuộc tính \texttt{customerID} và rủi ro rò rỉ dữ liệu: Cần phân biệt rõ: \texttt{customerID} là mã định danh riêng biệt (100\% unique), không phản ánh quy luật hành vi của khách hàng nên cần loại bỏ. Trong khi đó, rò rỉ dữ liệu (\textit{Data Leakage}) là nguy cơ xảy ra nếu các tham số tiền xử lý (giá trị trung bình, độ lệch chuẩn, từ điển mã hóa) được tính toán trên toàn bộ tập dữ liệu trước khi phân chia tập huấn luyện và kiểm tra.
+
+\subsection{Phương pháp xử lý dữ liệu và Đối chiếu trước -- sau xử lý}
+Dựa trên các phân tích định lượng, nhóm thực hiện quy trình xử lý dữ liệu với các căn cứ khoa học cụ thể:
+\begin{enumerate}[nosep, topsep=1pt, itemsep=1pt]
+    \item Xử lý giá trị trống và ép kiểu cột \texttt{TotalCharges}: Thay thế 11 chuỗi ký tự khoảng trắng bằng giá trị 0.0, sau đó chuyển đổi kiểu dữ liệu của cột từ \texttt{object} sang \texttt{float64}. \textit{Căn cứ:} Do cả 11 bản ghi đều có $\text{tenure} = 0$, việc gán 0.0 dựa trên cơ sở khách hàng mới ký hợp đồng chưa tích lũy cước phí. Cách xử lý này bảo toàn trọn vẹn toàn bộ 7.043 bản ghi mà không phải loại bỏ dòng dữ liệu nào.
+    \item Loại bỏ thuộc tính định danh: Loại bỏ hoàn toàn cột \texttt{customerID} ra khỏi không gian đặc trưng đầu vào trước khi đưa vào mô hình nhằm triệt tiêu nhiễu định danh.
+    \item Phòng ngừa nguy cơ rò rỉ dữ liệu trong tiền xử lý: Tách biệt hoàn toàn tập huấn luyện và tập kiểm tra trước khi thực hiện bất kỳ phép chuẩn hóa hay mã hóa nào. Mọi phép học tham số (\texttt{.fit()}) chỉ được thực hiện trên tập huấn luyện, sau đó mới áp dụng chuyển đổi (\texttt{.transform()}) trên tập kiểm tra.
+\end{enumerate}
+
+\begin{table}[H]
+\vspace{-4pt}
+\centering
+\caption{Đối chiếu trạng thái của bộ dữ liệu trước và sau khi xử lý chất lượng}
+\label{tab:doi_chieu_xuly}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{0.98}
+\begin{tabularx}{\textwidth}{| >{\raggedright\arraybackslash}p{3.2cm} | >{\raggedright\arraybackslash}p{3.2cm} | >{\raggedright\arraybackslash}p{3.2cm} | >{\raggedright\arraybackslash}X |}
+\hline
+\textbf{Tiêu chí so sánh} & \textbf{Trạng thái TRƯỚC} & \textbf{Trạng thái SAU} & \textbf{Đánh giá hiệu quả kỹ thuật đạt được} \\
+\hline
+Tổng số bản ghi (\textit{Samples}) & 7.043 bản ghi & 7.043 bản ghi & Bảo toàn trọn vẹn 100\% kích thước mẫu khảo sát ban đầu, không làm mất dữ liệu. \\
+\hline
+Số lượng giá trị khuyết ở \texttt{TotalCharges} & 11 ô chứa khoảng trắng \texttt{' '} (0,156\%) & 0 ô khuyết (được gán giá trị 0.0) & Đưa số lượng giá trị khuyết về 0, chuyển đổi thành công sang kiểu số thực. \\
+\hline
+Kiểu dữ liệu cột \texttt{TotalCharges} & Kiểu chuỗi ký tự (\texttt{object}) & Kiểu số thực (\texttt{float64}) & Đưa về định dạng số học chuẩn để thực hiện chuẩn hóa và tính toán ma trận. \\
+\hline
+Số lượng đặc trưng đầu vào thô & 21 cột (gồm cả ID và Churn) & 19 đặc trưng thô (loại bỏ ID, tách nhãn) & Loại bỏ hoàn toàn nhiễu định danh ngẫu nhiên, sẵn sàng cho bước mã hóa. \\
+\hline
+Ngăn ngừa rò rỉ dữ liệu trong quy trình & Tiềm ẩn rò rỉ nếu tính tham số trên toàn bộ tập & Phân chia tập dữ liệu trước khi fit bộ biến đổi & Đảm bảo tính khách quan và khả năng tổng quát hóa của quy trình đánh giá mô hình. \\
+\hline
+\end{tabularx}
+\end{table}
+
+% -------------------------------------------------------------------------
+% CHƯƠNG 4
+% -------------------------------------------------------------------------
+\vspace{1.5em}
+\section[CHƯƠNG 4. CHUẨN BỊ DỮ LIỆU VÀ THIẾT KẾ QUY TRÌNH ĐÁNH GIÁ]{CHƯƠNG 4. CHUẨN BỊ DỮ LIỆU\\VÀ THIẾT KẾ QUY TRÌNH ĐÁNH GIÁ}
+
+\subsection{Quy trình chuẩn bị dữ liệu và Xây dựng đường ống tiền xử lý}
+Để chuẩn bị dữ liệu đầu vào cho các thuật toán học máy một cách chuẩn mực và ngăn chặn nguy cơ rò rỉ dữ liệu (\textit{Data Leakage}), nhóm xây dựng quy trình chuẩn bị dữ liệu khép kín thông qua bộ công cụ \texttt{ColumnTransformer} và \texttt{Pipeline} của thư viện Scikit-Learn \cite{pedregosa2011scikit}.
+
+\subsubsection{Phân chia tập dữ liệu huấn luyện và kiểm tra}
+Nhóm áp dụng kỹ thuật phân chia phân tầng (\textit{Stratified Train-Test Split}) theo tỷ lệ 80\% tập Huấn luyện (\textit{Train set}) và 20\% tập Kiểm tra (\textit{Test set}), cố định tham số ngẫu nhiên \texttt{random\_state = 42} nhằm bảo đảm tính tái lập của thực nghiệm. Việc phân tầng dựa trên nhãn mục tiêu \texttt{Churn} giúp bảo toàn trọn vẹn cơ cấu phân bố nhãn (73,46\% No và 26,54\% Yes) trên cả hai tập dữ liệu theo Bảng \ref{tab:traintest_split}.
+
+\begin{table}[H]
+\centering
+\caption{Thống kê kích thước và phân bố nhãn sau khi phân chia tập dữ liệu}
+\label{tab:traintest_split}
+\begin{tabularx}{\textwidth}{| L | Y | Y | Y | Y | Y |}
+\hline
+\textbf{Phân vùng dữ liệu} & \textbf{Số bản ghi} & \textbf{Tỷ lệ tập} & \textbf{Số mẫu Lớp 0 (No)} & \textbf{Số mẫu Lớp 1 (Yes)} & \textbf{Tỷ lệ Churn} \\
+\hline
+Tập Huấn luyện (\textit{Train set}) & 5.634 dòng & 80,0\% & 4.139 mẫu (73,46\%) & 1.495 mẫu (26,54\%) & 26,54\% \\
+\hline
+Tập Kiểm tra (\textit{Test set}) & 1.409 dòng & 20,0\% & 1.035 mẫu (73,46\%) & 374 mẫu (26,54\%) & 26,54\% \\
+\hline
+Toàn bộ dữ liệu (\textit{Total}) & 7.043 dòng & 100,0\% & 5.174 mẫu (73,46\%) & 1.869 mẫu (26,54\%) & 26,54\% \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsubsection{Quy hoạch mã hóa và biến đổi không gian đặc trưng}
+19 đặc trưng thô ban đầu (sau khi loại bỏ \texttt{customerID} và tách nhãn \texttt{Churn}) được phân loại và xử lý chuyên biệt theo Bảng \ref{tab:columntransformer}:
+
+\begin{table}[H]
+\centering
+\caption{Kế hoạch mã hóa và chuẩn hóa đặc trưng bằng ColumnTransformer}
+\label{tab:columntransformer}
+\small
+\begin{tabularx}{\textwidth}{| >{\raggedright\arraybackslash}p{2.6cm} | >{\raggedright\arraybackslash\sloppy}p{4.2cm} | >{\raggedright\arraybackslash}X | c |}
+\hline
+\textbf{Nhóm đặc trưng} & \textbf{Danh sách thuộc tính} & \textbf{Kỹ thuật biến đổi áp dụng} & \textbf{Số chiều} \\
+\hline
+Biến định lượng (3 đặc trưng) & \texttt{tenure}, \texttt{MonthlyCharges}, \texttt{TotalCharges} & Chuẩn hóa \texttt{StandardScaler()}: đưa về phân bố có trung bình $\mu = 0$ và độ lệch chuẩn $\sigma = 1$: $z = \frac{x - \mu}{\sigma}$. & 3 cột số \\
+\hline
+Biến nhị phân (5 đặc trưng) & \texttt{gender}, \texttt{Partner}, \texttt{Dependents}, \texttt{PhoneService}, \texttt{PaperlessBilling} & Mã hóa \texttt{OneHotEncoder(drop='if\_binary')}: chuyển trực tiếp thành biến nhị phân 0 và 1. & 5 cột nhị phân \\
+\hline
+Biến danh mục đa nhóm (10 đặc trưng) & \texttt{MultipleLines}, \texttt{InternetService}, \texttt{OnlineSecurity}, \texttt{OnlineBackup}, \newline \texttt{DeviceProtection}, \texttt{TechSupport}, \texttt{StreamingTV}, \newline \texttt{StreamingMovies}, \texttt{Contract}, \texttt{PaymentMethod} & Mã hóa \texttt{OneHotEncoder(drop='first')}: loại bỏ cột nhóm tham chiếu đầu tiên nhằm tránh bẫy biến giả (\textit{Dummy Variable Trap}). & 21 cột nhị phân \\
+\hline
+Biến giữ nguyên (1 đặc trưng) & \texttt{SeniorCitizen} & Giữ nguyên giá trị gốc (\texttt{remainder='passthrough'}) do đã ở sẵn định dạng nhị phân 0/1. & 1 cột số \\
+\hline
+\end{tabularx}
+\end{table}
+
+\noindent \textit{Lưu ý kỹ thuật về tham số \texttt{drop='first'}:} Việc thiết lập \texttt{drop='first'} đối với các biến danh mục đa nhóm là một lựa chọn thiết kế kỹ thuật nhằm loại bỏ cột phụ thuộc tuyến tính, phòng ngừa hiện tượng bẫy biến giả (\textit{Dummy Variable Trap}) và kiểm soát đa cộng tuyến trong các thuật toán tuyến tính. Đối với các thuật toán phi tuyến tính hoặc mô hình dạng cây, việc loại bỏ nhóm tham chiếu không phải là điều kiện bắt buộc.
+
+\subsubsection{Số chiều thực tế và danh sách đặc trưng đầu ra}
+Kết quả thực nghiệm chạy bộ biến đổi \texttt{ColumnTransformer} trên dữ liệu xác nhận kích thước ma trận đặc trưng sau tiền xử lý:
+\begin{itemize}
+    \item Ma trận tập huấn luyện (\texttt{X\_train\_processed}): 5.634 dòng và đúng 30 cột đặc trưng.
+    \item Ma trận tập kiểm tra (\texttt{X\_test\_processed}): 1.409 dòng và đúng 30 cột đặc trưng.
+\end{itemize}
+
+\noindent Danh sách 30 cột đặc trưng thực tế thu được bao gồm:
+\begin{enumerate}[itemsep=1pt, topsep=2pt]
+    \item \texttt{num\_\_tenure}
+    \item \texttt{num\_\_MonthlyCharges}
+    \item \texttt{num\_\_TotalCharges}
+    \item \texttt{bin\_\_gender\_Male}
+    \item \texttt{bin\_\_Partner\_Yes}
+    \item \texttt{bin\_\_Dependents\_Yes}
+    \item \texttt{bin\_\_PhoneService\_Yes}
+    \item \texttt{bin\_\_PaperlessBilling\_Yes}
+    \item \texttt{cat\_\_MultipleLines\_No phone service}
+    \item \texttt{cat\_\_MultipleLines\_Yes}
+    \item \texttt{cat\_\_InternetService\_Fiber optic}
+    \item \texttt{cat\_\_InternetService\_No}
+    \item \texttt{cat\_\_OnlineSecurity\_No internet service}
+    \item \texttt{cat\_\_OnlineSecurity\_Yes}
+    \item \texttt{cat\_\_OnlineBackup\_No internet service}
+    \item \texttt{cat\_\_OnlineBackup\_Yes}
+    \item \texttt{cat\_\_DeviceProtection\_No internet service}
+    \item \texttt{cat\_\_DeviceProtection\_Yes}
+    \item \texttt{cat\_\_TechSupport\_No internet service}
+    \item \texttt{cat\_\_TechSupport\_Yes}
+    \item \texttt{cat\_\_StreamingTV\_No internet service}
+    \item \texttt{cat\_\_StreamingTV\_Yes}
+    \item \texttt{cat\_\_StreamingMovies\_No internet service}
+    \item \texttt{cat\_\_StreamingMovies\_Yes}
+    \item \texttt{cat\_\_Contract\_One year}
+    \item \texttt{cat\_\_Contract\_Two year}
+    \item \texttt{cat\_\_PaymentMethod\_Credit card (automatic)}
+    \item \texttt{cat\_\_PaymentMethod\_Electronic check}
+    \item \texttt{cat\_\_PaymentMethod\_Mailed check}
+    \item \texttt{remainder\_\_SeniorCitizen}
+\end{enumerate}
+
+Nguyên tắc phòng ngừa rò rỉ dữ liệu trong tiền xử lý: Nhóm tuân thủ nghiêm ngặt nguyên tắc: mọi tham số thống kê (giá trị trung bình $\mu$, độ lệch chuẩn $\sigma$ của \texttt{StandardScaler}) và từ điển phân loại của \texttt{OneHotEncoder} chỉ được học (\texttt{fit}) duy nhất trên tập huấn luyện (\texttt{X\_train}). Tập kiểm tra (\texttt{X\_test}) chỉ áp dụng chuyển đổi (\texttt{transform}) dựa trên các tham số đã học được, bảo đảm tập kiểm tra hoàn toàn độc lập và không làm rò rỉ thông tin phân bố vào quá trình huấn luyện.
+
+\subsection{Thiết kế chiến lược đánh giá và Hệ chỉ số đo lường}
+
+\subsubsection{Thiết kế quy trình kiểm định chéo phân tầng\\(Stratified 5-Fold Cross-Validation)}
+Để đánh giá độ ổn định và giảm thiểu phương sai mô hình trên tập huấn luyện, nhóm thiết kế chiến lược kiểm định chéo phân tầng 5 nếp (\textit{Stratified 5-Fold Cross-Validation}) tích hợp trực tiếp đường ống xử lý:
+\begin{itemize}[nosep, topsep=2pt, itemsep=2pt]
+    \item Toàn bộ Pipeline bao gồm bộ tiền xử lý \texttt{ColumnTransformer} và mô hình phân loại được đặt trong quy trình Cross-Validation.
+    \item Quy trình chống rò rỉ trong kiểm định chéo: Tại mỗi fold lặp, bộ tiền xử lý chỉ được fit trên 4 phần dữ liệu huấn luyện của fold đó và thực hiện transform sang 1 phần kiểm định (\textit{validation fold}). Thiết kế này ngăn chặn triệt để nguy cơ thông tin từ phần kiểm định lọt vào bước chuẩn hóa và mã hóa. Tập kiểm tra độc lập (\textit{Hold-out Test set} 20\%) được niêm phong hoàn toàn và chỉ sử dụng một lần duy nhất để đánh giá mô hình tối ưu cuối cùng.
+\end{itemize}
+
+\subsubsection{Phân tích và lý giải hệ chỉ số qua ma trận chi phí sai số}
+Trong bài toán dự đoán rời mạng viễn thông, hai loại sai số dự đoán có bản chất và tác động nghiệp vụ khác biệt:
+\begin{itemize}[nosep, topsep=2pt, itemsep=2pt]
+    \item Sai lầm Âm tính giả (\textit{False Negative -- Bỏ sót khách rời mạng}): Khách hàng thực tế rời bỏ dịch vụ nhưng mô hình dự đoán là ở lại. Doanh nghiệp mất đi toàn bộ nguồn thu định kỳ hàng tháng và giá trị vòng đời của khách hàng.
+    \item Sai lầm Dương tính giả (\textit{False Positive -- Cảnh báo nhầm}): Khách hàng thực tế tiếp tục gắn bó nhưng mô hình dự đoán nhầm là rời mạng. Doanh nghiệp tốn thêm chi phí liên hệ chăm sóc hoặc gửi tặng các ưu đãi giữ chân không thực sự cần thiết.
+\end{itemize}
+
+\noindent \textit{Nhận định về mức độ chênh lệch chi phí:} Trong phạm vi đề tài, việc giả định bỏ sót khách hàng có nguy cơ rời mạng gây tổn thất lớn hơn việc liên hệ chăm sóc nhầm khách hàng trung thành là căn cứ hợp lý để định hướng thiết kế bài toán. Tuy nhiên, mức độ chênh lệch cụ thể cần được lượng hóa chi tiết hơn khi có số liệu tài chính thực tế từ doanh nghiệp.
+
+\subsubsection*{\textbf{Tổng kết cơ sở lựa chọn hệ chỉ số đánh giá:}}
+\begin{itemize}[nosep, topsep=2pt, itemsep=2pt]
+    \item Không dùng Accuracy: Tỷ lệ mất cân bằng lớp 73,46\% vs 26,54\% khiến độ chính xác tổng thể bị thiên lệch theo lớp đa số và không phản ánh năng lực phát hiện khách hàng rời mạng.
+    \item Ưu tiên chỉ số Recall trên lớp dương tính (\texttt{Churn = Yes}): Nhằm tối đa hóa khả năng nhận diện các thuê bao có nguy cơ rời mạng, giảm thiểu sai lầm bỏ sót.
+    \item Áp dụng F1-Score (Lớp 1): Làm chốt chặn cân bằng điều hòa giữa Precision và Recall, ngăn ngừa tình trạng mô hình dự đoán thiên lệch toàn bộ là lớp dương tính để đạt Recall cao.
+    \item Áp dụng ROC-AUC: Đánh giá năng lực phân tách xác suất tổng thể giữa hai nhóm khách hàng độc lập với việc lựa chọn ngưỡng cắt xác suất (\textit{classification threshold}).
+\end{itemize}
+
+% -------------------------------------------------------------------------
+% PHẦN KẾT LUẬN
+% -------------------------------------------------------------------------
+\vspace{1.5em}
+\section*{\textbf{KẾT LUẬN}}
+\addcontentsline{toc}{section}{KẾT LUẬN}
+
+Trong giai đoạn khảo sát và chuẩn bị dữ liệu, nhóm đã hoàn thành các mục tiêu đề ra cho bước khởi động dự án học máy:
+\begin{enumerate}
+    \item Xác định bài toán phân loại nhị phân nhằm dự đoán khách hàng rời bỏ dịch vụ viễn thông (Churn), sử dụng 19 đặc trưng đầu vào sau khi loại bỏ thuộc tính định danh \texttt{customerID} và nhãn mục tiêu \texttt{Churn} từ bộ dữ liệu viễn thông của IBM.
+    \item Thực hiện khảo sát dữ liệu khám phá (EDA), bao gồm thống kê mô tả, trực quan hóa phân bố dữ liệu và phân tích mối quan hệ giữa các đặc trưng với nhãn mục tiêu bằng các phương pháp thống kê phù hợp.
+    \item Rà soát và định lượng các vấn đề chất lượng dữ liệu, đồng thời thực hiện các bước xử lý cần thiết: thay thế 11 giá trị trống trong \texttt{TotalCharges} bằng 0.0 dựa trên giả định các trường hợp này tương ứng với khách hàng có $\text{tenure} = 0$; loại bỏ thuộc tính định danh \texttt{customerID} khỏi tập đặc trưng và xác nhận không có giá trị ngoại lai theo ngưỡng IQR 1,5 lần khoảng tứ phân vị.
+    \item Xây dựng quy trình tiền xử lý bằng \texttt{ColumnTransformer}, kết hợp chuẩn hóa đặc trưng số và mã hóa đặc trưng phân loại, tạo ra 30 đặc trưng đầu ra. Đồng thời, thực hiện chia dữ liệu huấn luyện và kiểm tra theo phương pháp phân tầng, tạo cơ sở cho việc xây dựng quy trình huấn luyện và kiểm định chéo bằng \texttt{Pipeline} ở giai đoạn tiếp theo.
+\end{enumerate}
+
+Kết quả của giai đoạn này cung cấp cơ sở thực nghiệm cho việc lựa chọn thuật toán, xây dựng và đánh giá các mô hình học máy phân loại khách hàng rời bỏ dịch vụ viễn thông ở các bước tiếp theo.
+
+% -------------------------------------------------------------------------
+% TÀI LIỆU THAM KHẢO
+% -------------------------------------------------------------------------
+\vspace{1.5em}
+\begin{thebibliography}{99}
+\addcontentsline{toc}{section}{TÀI LIỆU THAM KHẢO}
+
+\bibitem{ibm2020} 
+IBM Cognos Analytics, \textit{Telco Customer Churn Sample Data Set}, IBM Business Analytics Community, 2020. URL: \url{https://www.kaggle.com/datasets/blastchar/telco-customer-churn}.
+
+\bibitem{pedregosa2011scikit} 
+F. Pedregosa, G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O. Grisel, M. Blondel, P. Prettenhofer, R. Weiss, V. Dubourg, J. Vanderplas, A. Passos, D. Cournapeau, M. Brucher, M. Perrot, and E. Duchesnay, ``Scikit-learn: Machine Learning in Python,'' \textit{Journal of Machine Learning Research}, vol. 12, pp. 2825--2830, 2011.
+
+\bibitem{fawcett2006roc} 
+T. Fawcett, ``An introduction to ROC analysis,'' \textit{Pattern Recognition Letters}, vol. 27, no. 8, pp. 861--874, 2006.
+
+\bibitem{hastie2009elements} 
+T. Hastie, R. Tibshirani, and J. Friedman, \textit{The Elements of Statistical Learning: Data Mining, Inference, and Prediction}, 2nd ed. New York: Springer, 2009.
+
+\end{thebibliography}
+
+% -------------------------------------------------------------------------
+% PHỤ LỤC MÃ NGUỒN
+% -------------------------------------------------------------------------
+\vspace{1.5em}
+\section*{\textbf{PHỤ LỤC: MÃ NGUỒN PIPELINE\\TIỀN XỬ LÝ DỮ LIỆU}}
+\addcontentsline{toc}{section}{PHỤ LỤC: MÃ NGUỒN PIPELINE TIỀN XỬ LÝ DỮ LIỆU}
+
+Dưới đây là toàn bộ mã nguồn Python thực thi đường ống tiền xử lý dữ liệu hoàn chỉnh, chuẩn hóa 19 đặc trưng thô thành ma trận 30 đặc trưng đầu ra và chống rò rỉ dữ liệu bằng Scikit-Learn:
+
+\begin{lstlisting}[language=Python, caption={Mã nguồn Python xây dựng đường ống tiền xử lý chống rò rỉ dữ liệu}]
+import numpy as np
+import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+# 1. Doc du lieu va xu ly gia tri trong ban dau
+df = pd.read_csv('Telco-Customer-Churn.csv')
+df['TotalCharges'] = pd.to_numeric(
+    df['TotalCharges'].replace(' ', np.nan)
+).fillna(0.0)
+
+# 2. Tach khong gian dac trung X (19 cot tho) va nhan muc tieu y
+X = df.drop(columns=['customerID', 'Churn'])
+y = df['Churn'].map({'No': 0, 'Yes': 1})
+
+# 3. Phan chia Train - Test phan tang (Stratified) chong ro ri du lieu
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42, stratify=y
+)
+
+# 4. Xac dinh danh sach cac nhom thuoc tinh
+num_features = ['tenure', 'MonthlyCharges', 'TotalCharges']
+bin_features = [
+    'gender', 'Partner', 'Dependents', 'PhoneService', 'PaperlessBilling'
+]
+cat_features = [
+    'MultipleLines', 'InternetService', 'OnlineSecurity', 'OnlineBackup',
+    'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies',
+    'Contract', 'PaymentMethod'
+]
+
+# 5. Xay dung ColumnTransformer tien xu ly
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', StandardScaler(), num_features),
+        ('bin', OneHotEncoder(drop='if_binary', handle_unknown='ignore'), bin_features),
+        ('cat', OneHotEncoder(drop='first', handle_unknown='ignore'), cat_features),
+    ],
+    remainder='passthrough',  # Giu nguyen thuoc tinh SeniorCitizen (0/1)
+)
+
+# 6. Fit tren tap Train va Transform tren tap Test (Chong ro ri du lieu)
+X_train_processed = preprocessor.fit_transform(X_train)
+X_test_processed = preprocessor.transform(X_test)
+
+print(f'Kich thuoc ma tran Train sau xu ly: {X_train_processed.shape}')
+print(f'Kich thuoc ma tran Test sau xu ly:  {X_test_processed.shape}')
+\end{lstlisting}
+
+\end{document}
