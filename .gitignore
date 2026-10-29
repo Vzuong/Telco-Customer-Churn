@@ -1,0 +1,32 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Binaries and archives
+tectonic.exe
+tectonic.zip
+*.zip
+
+# Python cache & Jupyter checkpoints
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# Temporary / scratch / draft files
+scratch/
+scratch_*
+extracted/
+extracted_content.txt
+verify_pdf.py
+bt.ipynb
+Iris.csv
+*.docx
+Tiêu chí chấm.txt
+
+# Do not track images / auxiliary scripts on github (per user request)
+*.png
+latexmkrc
+generate_additional_charts.py
+main.pdf
