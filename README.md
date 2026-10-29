@@ -1,6 +1,6 @@
 # DỰ ÁN HỌC MÁY: DỰ ĐOÁN NGUY CƠ KHÁCH HÀNG RỜI BỎ MẠNG VIỄN THÔNG (TELCO CUSTOMER CHURN)
 
-> **Báo cáo Tiểu luận - Bài kiểm tra 1 (Tuần 4): Xác định bài toán, khảo sát và tiền xử lý dữ liệu**  
+> **Báo cáo Tiểu luận: Xác định bài toán, khảo sát và tiền xử lý dữ liệu**  
 > **Trường Đại học Công nghệ Thông tin & Truyền thông - Đại học Thái Nguyên (ICTU)**  
 > **Khoa Công nghệ Thông tin - Học phần: Học máy (Machine Learning)**
 

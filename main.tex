@@ -129,7 +129,7 @@
     basicstyle=\ttfamily\footnotesize,
     breakatwhitespace=false,         
     breaklines=true,                 
-    captionpos=b,                    
+    captionpos=t,                    
     keepspaces=true,                 
     numbers=left,                    
     numbersep=5pt,                  
@@ -256,7 +256,7 @@ Chúng em xin chân thành cảm ơn!
 \section*{BẢNG PHÂN CÔNG NHIỆM VỤ}
 \addcontentsline{toc}{section}{BẢNG PHÂN CÔNG NHIỆM VỤ}
 
-\noindent Dưới đây là bảng tổng hợp phân công nhiệm vụ chi tiết và mức độ hoàn thành của các thành viên nhóm trong giai đoạn thực hiện đề tài (Bài kiểm tra 1 -- Tuần 4). Mã nguồn và lịch sử commit được công khai tại: \url{https://github.com/Vzuong/Telco-Customer-Churn}.
+\noindent Dưới đây là bảng tổng hợp phân công nhiệm vụ chi tiết và mức độ hoàn thành của các thành viên nhóm trong giai đoạn thực hiện đề tài. Mã nguồn và lịch sử commit được công khai tại: \url{https://github.com/Vzuong/Telco-Customer-Churn}.
 
 \vspace{0.2cm}
 \noindent
@@ -1052,24 +1052,18 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 # 1. Doc du lieu va xu ly gia tri trong ban dau
 df = pd.read_csv('Telco-Customer-Churn.csv')
-df['TotalCharges'] = pd.to_numeric(
-    df['TotalCharges'].replace(' ', np.nan)
-).fillna(0.0)
+df['TotalCharges'] = pd.to_numeric(df['TotalCharges'].replace(' ', np.nan)).fillna(0.0)
 
 # 2. Tach khong gian dac trung X (19 cot tho) va nhan muc tieu y
 X = df.drop(columns=['customerID', 'Churn'])
 y = df['Churn'].map({'No': 0, 'Yes': 1})
 
 # 3. Phan chia Train - Test phan tang (Stratified) chong ro ri du lieu
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.20, random_state=42, stratify=y
-)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42, stratify=y)
 
 # 4. Xac dinh danh sach cac nhom thuoc tinh
 num_features = ['tenure', 'MonthlyCharges', 'TotalCharges']
-bin_features = [
-    'gender', 'Partner', 'Dependents', 'PhoneService', 'PaperlessBilling'
-]
+bin_features = ['gender', 'Partner', 'Dependents', 'PhoneService', 'PaperlessBilling']
 cat_features = [
     'MultipleLines', 'InternetService', 'OnlineSecurity', 'OnlineBackup',
     'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies',
@@ -1083,7 +1077,7 @@ preprocessor = ColumnTransformer(
         ('bin', OneHotEncoder(drop='if_binary', handle_unknown='ignore'), bin_features),
         ('cat', OneHotEncoder(drop='first', handle_unknown='ignore'), cat_features),
     ],
-    remainder='passthrough',  # Giu nguyen thuoc tinh SeniorCitizen (0/1)
+    remainder='passthrough'  # Giu nguyen thuoc tinh SeniorCitizen (0/1)
 )
 
 # 6. Fit tren tap Train va Transform tren tap Test (Chong ro ri du lieu)
